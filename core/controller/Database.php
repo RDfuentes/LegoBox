@@ -4,7 +4,7 @@ class Database {
 	public static $con;
 
 	function __construct(){
-		$this->user="root";$this->pass="";$this->host="localhost";$this->ddbb="legobox";
+		$this->user="Albert";$this->pass="Admin123";$this->host="localhost";$this->ddbb="legobox";
 	}
 
 	function connect(){
