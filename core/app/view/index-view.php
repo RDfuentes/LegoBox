@@ -6,7 +6,8 @@
 
                 <div class="jumbotron" style="background-color:white; width:80%; height:100%; margin-top:40px; margin-left:10%">
                     <div class="text-center">
-                        <h1><strong>LegoBox </strong><img src="img/legobox.png" alt="" style='width:1em; height: 1em;'> </h1>
+                        <h1><strong>LegoBox</strong><img src="img/legobox.png" alt="" style='width:1em; height: 1em;'> </h1>
+                        <h5 class="text-center">ACREDICOM</h5>
                     </div>
 
                     <!-- Formulario POST para envio de usuario y contrarseña a controlador -->
