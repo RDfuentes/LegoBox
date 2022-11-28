@@ -44,9 +44,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id`, `nombres`, `apellidos`, `usuario`, `password`, `admin`, `estado`, `created_by`, `created`) VALUES
-(1, 'RONALD DAVID', 'FUENTES LOPEZ', 'Acredicom', '42c6530b0b83bc903a5e52df8b49372152d0c972', 1, 1, 'RONALD DAVID', '2022-08-02 01:36:38'),
-(2, 'CESAR KEVY', 'GOMEZ GARCIA', 'ckgomez', '7ed28421003c409e1d8e4066d29e8fd763197e88', 1, 1, 'RONALD DAVID', '2022-08-01 17:37:40');
-
+(1, 'RONALD DAVID', 'FUENTES LOPEZ', 'Acredicom', '42c6530b0b83bc903a5e52df8b49372152d0c972', 1, 1, 'RONALD DAVID', '2022-08-02 01:36:38');
 --
 -- Índices para tablas volcadas
 --
@@ -65,7 +63,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
