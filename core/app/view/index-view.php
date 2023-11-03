@@ -1,8 +1,13 @@
-    <div class="text-center">
+<body style="background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  background-image: url(./img/fondo.png);">
+
+    <div class="container text-center">
         <div class="row">
             <div class="col-md-12">
 
-                <div class="jumbotron" style="background-color:white; width:80%; height:100%; margin-top:100px; margin-left:10%">
+                <div class="jumbotron" style="background-color:white; width:80%; height:120%; margin-top:100px; margin-left:10%">
                     <h1><strong>LegoBox </strong><img src="img/legobox.png" alt="" style='width:1em; height: 1em;'> </h1>
                     <h5 class="text-center">NEWSOFT</h5>
 

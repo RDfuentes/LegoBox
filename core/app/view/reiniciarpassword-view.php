@@ -16,7 +16,6 @@
                 <div class="jumbotron" style="background-color:white; width:80%; height:100%; margin-top:40px; margin-left:10%">
                     <h1><strong>LegoBox</strong><img src="img/legobox.png" alt="" style='width:1em; height: 1em;'> </h1>
                     <h5>NEWSOFT</h5>
-
                     <form method="post" action="./?action=admin&adm=passwordreset">
                         <div class="row">
                             <div class="col-md-12">
@@ -49,6 +48,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -62,7 +62,6 @@
                 <div class="jumbotron" style="background-color:white; width:80%; height:100%; margin-top:40px; margin-left:10%">
                     <h1><strong>LegoBox</strong><img src="img/legobox.png" alt="" style='width:1em; height: 1em;'> </h1>
                     <h5>NEWSOFT</h5>
-
                     <form method="post" action="./?action=admin&adm=resetpassword">
                         <div class="row">
                             <div class="col-md-12">
@@ -100,6 +99,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
