@@ -1,5 +1,14 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+// Requerir los archivos de PHPMailer
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
+
 if (isset($_GET["adm"]) && $_GET["adm"] == "register") {
 
 	$ad = AdminData::getBy("usuario", $_POST["usuario"]);
@@ -39,51 +48,81 @@ else if (isset($_GET["adm"]) && $_GET["adm"] == "update") {
 	$admin->update();
 	Core::alert("Administrador actualizado con Exito!");
 	Core::redir("./?view=register_admin&adm=all");
-} 
+}
 
 //FUNCION SOLICITUD DE CAMBIO DE CONTRASEÑA
 else if (isset($_GET["adm"]) && $_GET["adm"] == "passwordreset") {
 	$ad = AdminData::getBy("email", $_POST["email"]);
 	if ($ad == null) {
-		Core::alert("Error: El correo electronico no existe");
+		Core::alert("Error: El correo electronico proporcionado NO EXISTE!");
 		Core::redir("./?view=reiniciarpassword&adm=passwordreset");
 	} else {
 		$ad->email = $_POST["email"];
 		$ad->olvido_pass_iden = $_POST["olvido_pass_iden"];
 		$ad->updatepassword();
 
-		// PROCESO DE ENVIO DEL MENSAJE COMO SONSTANCIA
-		include("sendemail.php"); // documento sendemail.php
+		// ENVIO DE CORREO ELECTRONICO
+		$to = $_POST["email"]; // Dirección de correo electrónico del destinatario
+		$olvido_pass_iden = $_POST["olvido_pass_iden"]; // Dirección de correo electrónico del destinatario
+		$subject = "Solicitud de cambio de Password"; // Asunto del correo electrónico
 
-		/*Configuracion de variables para enviar el correo*/
-		$mail_username = "rdfuentes@acredicom.com.gt"; //Correo electronico remitente
-		$mail_userpassword = "Ir0nM@n21"; //Contraseña remitente 
-		$mail_addAddress = $_POST["email"]; //Correo de receptor variable
-		$olvido_pass_iden = $_POST["olvido_pass_iden"]; //Correo de receptor variable
+		// CONTENIDO DEL CORREO
+		$message = "
+		<div style='background-color:#FFF; color:#000; text-align: center'><br>
+			<h2>NEWSOFT</h2><br>
+			<center>
+				<table class='table table-bordered' border='1' bordercolor='#000' style='font-size:18px'>
+					<tr>
+						<th colspan='2'  class='text-center'><strong>SOLICITUD DE CAMBIO DE CONTRASEÑA</strong></th>
+					</tr>
+					<tr>
+						<th>CORREO:</th>
+						<td>$to</td>
+					</tr>
+					<tr>
+						<th>ACCESO:</th>
+						<td>http://localhost/sistemasmvc/LegoBox/?view=reiniciarpassword&adm=resetpassword&recoverycode=$olvido_pass_iden</td>
+					</tr>
+				</table>
+			</center><br><br>
+			<p>SOFTWARE DEVELOPMENT</p><br><br>		
+		</div>
+		";
 
-		/*Inicio captura de datos enviados por $_POST para enviar el correo */
-		$mail_setFromEmail = "rdfuentes@acredicom.com.gt";
-		$mail_setFromName = "ProyectosAcredicom";
-		$mail_subject = "Costancia de cambio de contrasena";
+		// CONFIGURACIÓN DE PHPMailer
+		$mail = new PHPMailer();
+		$mail->isSMTP();
+		$mail->Host = 'sandbox.smtp.mailtrap.io';
+		$mail->SMTPAuth = true;
+		$mail->Username = '30cb65f9bbfa4a';
+		$mail->Password = 'b7781517b721b4';
+		$mail->SMTPSecure = 'tls';
+		$mail->Port = 2525;
 
-		sendemail(
-			$mail_username,
-			$mail_userpassword,
-			$mail_addAddress,
-			$template,
-			$mail_setFromEmail,
-			$mail_setFromName,
-			$txt_message,
-			$mail_subject,
-			$olvido_pass_iden
-		);	
+		// DIRECCIÓN DE CORREO Y NOMBRE DE REMITENTE
+		$mail->setFrom('ronaldfuentes.newsoft@gmail.com', 'NewSoft');
 
+		// DESTINATARIO
+		$mail->addAddress($to);
+
+		// ASUNTO Y CUERPO DEL CORREO ELECTRONICO
+		$mail->Subject = $subject;
+		$mail->Body = $message;
+		$mail->isHTML(true); // Indicar que el cuerpo del correo es HTML
+
+		// ENVIO DEL CORREO ELECTRONICO
+		if ($mail->send()) {
+			// SATISFACTORIO
+			Core::alert("Solicitud aprobada, se ha enviado un correo");
+		} else {
+			// NO SATISFACTORIO
+			Core::alert("Solicitud aprobada, pero el envío del correo falló");
+		}
 		// FIN DE PROCESO DE ENVIO DE CORREO ELECTRONICO 
 
-		Core::alert("Solicitud procesada con exito, REVISA TU CORREO ELECTRÓNICO!");
 		Core::redir("./");
 	}
-} 
+}
 
 //FUNCION PARA CAMBIAR CONTRASEÑA
 else if (isset($_GET["adm"]) && $_GET["adm"] == "resetpassword") {
@@ -93,19 +132,18 @@ else if (isset($_GET["adm"]) && $_GET["adm"] == "resetpassword") {
 		Core::alert("Error: El código de recuperación NO ES CORRECTO!");
 		Core::redir("./?view=reiniciarpassword&adm=resetpassword&recoverycode=$olvido_pass_iden");
 	} else {
-		if (($_POST["password"]) == $_POST["confirm_password"]){
+		if (($_POST["password"]) == $_POST["confirm_password"]) {
 			$ad->password = sha1(md5($_POST["password"]));
 			Core::alert("La contraseña a sido cambiada con exito");
 			$ad->passwordupdate();
 			Core::redir("./");
-		}
-		else{
+		} else {
 			$olvido_pass_iden = $_POST["olvido_pass_iden"];
 			Core::alert("La contraseña NO COINCIDE");
 			Core::redir("./?view=reiniciarpassword&adm=resetpassword&recoverycode=$olvido_pass_iden");
 		}
 	}
-}
+} 
 
 else if (isset($_GET["adm"]) && $_GET["adm"] == "login") {
 
