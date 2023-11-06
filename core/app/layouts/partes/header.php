@@ -13,8 +13,10 @@
         </div>
 
         <div>
-            <a href="./?view=welcome">🏚️ Inicio</a>
-            <a href="./?action=admin&adm=logout">❌ Cerrar sesion</a>
+            <?php if (isset($_SESSION["admin_id"])) : ?>
+                <a href="./?view=welcome">🏚️ Inicio</a>
+                <a href="./?action=admin&adm=logout">❌ Cerrar sesion</a>
+            <?php endif; ?>
             <div class="dropdown d-none d-lg-inline-block ms-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
                     <i class="bx bx-fullscreen"></i>

@@ -17,7 +17,7 @@
                                     <div class="col-md-12">
                                         <input type="text" class="form-control" id="usuario" name="usuario" required autocomplete="usuario" autofocus>
                                         <div class="invalid-feedback">
-                                            Por favor ingresa usuario / correo electrónico
+                                            Por favor ingresa usuario
                                         </div>
                                     </div>
 
