@@ -24,9 +24,9 @@ if (isset($_GET["adm"]) && $_GET["adm"] == "register") {
 		Core::alert("Administrador registrado con Exito!");
 	} else {
 		Core::alert("Error: Nombre de usuario repetido");
-		Core::redir("./?view=register_admin&adm=register");
+		Core::redir("./?view=usuarios/index");
 	}
-	Core::redir("./?view=register_admin&adm=all");
+	Core::redir("./?view=usuarios/index");
 } 
 
 else if (isset($_GET["adm"]) && $_GET["adm"] == "delete") {

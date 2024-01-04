@@ -4,14 +4,12 @@
 <!-- encabezado -->
 
 <head>
-	<!-- utf-8 -->
 	<meta charset="utf-8" />
-	<!-- CSRF Token -->
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>LEGOBOX</title>
+	<meta name="csrf-token" content="csrf_token">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LEGOBOX</title>
 
-	<!-- FondoTemplate -->
+	<!-- Imagen de Fondo -->
 	<style>
 		body {
 			background-image: url('assets/images/fondoinicial.png');
@@ -25,8 +23,15 @@
 	<?php
 	include('assets/css/styles.blade.php');
 	?>
+	<!-- JAVASCRIPT -->
+	<?php
+	include('assets/js/scripts.blade.php');
+	?>
 </head>
 <!-- end encabezado -->
+
+
+<!-- body -->
 
 <body data-layout="horizontal">
 
@@ -36,6 +41,9 @@
 		<header>
 			<?php
 			include('partes/header.php');
+			if (isset($_SESSION["admin_id"])) :
+				include('partes/menu.php');
+			endif;
 			?>
 		</header>
 
@@ -56,8 +64,5 @@
 	</div>
 	<!-- end Page -->
 
-	<!-- JAVASCRIPT -->
-	<?php
-	include('assets/js/scripts.blade.php');
-	?>
 </body>
+<!-- end body -->
