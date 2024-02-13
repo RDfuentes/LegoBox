@@ -86,10 +86,6 @@
                                     <p class="alert alert-danger"><strong>NO SE ENCONTRARON REGISTROS</strong></p>
                                 <?php endif; ?>
 
-                                <?php
-                                include('modals/edit-view.php');
-                                ?>
-
                                 <script>
                                     $(document).ready(function() {
                                         var data = <?php echo $data_json; ?>;
@@ -140,7 +136,7 @@
                                                 {
                                                     'data': null,
                                                     'render': function(data, type, row) {
-                                                        return '<button class="dropdown-item pointer btn-sm" onclick="loadUserData(' + data.id + ')" data-bs-toggle="modal" data-bs-target="#editUser"><i class="fa fa-edit"></i></button>';
+                                                        return '<button class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#editUser" onclick="mostrarID(' + data.id + ')"><i class="fa fa-edit"></i></button>';
                                                     }
                                                 }
                                             ],
@@ -170,7 +166,38 @@
                                         });
 
                                     });
+
+                                    function mostrarID(id) {
+                                        $.ajax({
+                                            url: 'http://localhost/sistemasmvc/LegoBox/core/app/action/getDataAdmin-action.php?id=' + id,
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            success: function(data) {
+
+                                                var id = data.data[0].id;
+                                                var nombres = data.data[0].nombres;
+                                                var apellidos = data.data[0].apellidos;
+                                                var email = data.data[0].email;
+                                                var usuario = data.data[0].usuario;
+
+                                                // Asigna el valor al input en tu modal
+                                                $('#id').val(id);
+                                                $('#nombres').val(nombres);
+                                                $('#apellidos').val(apellidos);
+                                                $('#email').val(email);
+                                                $('#usuario').val(usuario);
+
+                                            },
+                                            error: function(error) {
+                                                console.error('Error en la solicitud AJAX: ', error);
+                                            }
+                                        });
+                                    }
                                 </script>
+
+                                <?php
+                                include('modals/edit-view.php');
+                                ?>
 
                             </div> <!-- end card body -->
                         </div> <!-- end card -->

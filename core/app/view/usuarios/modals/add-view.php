@@ -58,11 +58,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-6" style="display: none;">
-                                <div class="form-group">
-                                    <label>Nombre de quien realiza cambio</label>
-                                    <input type="text" class="form-control" value="<?php echo $admin->nombres; ?>" name="created_by" required>
-                                </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
                             </div>
                         </div>
                     </div>

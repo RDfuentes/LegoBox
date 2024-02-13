@@ -11,12 +11,13 @@ class AdminData {
 		$this->olvido_pass_iden = "";
 		$this->estado = "1";
 		$this->created_by = "";
-        $this->created = "NOW()";
+        $this->created_at = date("Y-m-d H:i:s");
+		$this->updated_at = date("Y-m-d H:i:s");
 	}
 
 	public function add(){
-		$sql = "insert into ".self::$tablename." (nombres,apellidos,email,usuario,password,estado,created_by,created) ";
-		$sql .= "value (\"$this->nombres\",\"$this->apellidos\",\"$this->email\",\"$this->usuario\",\"$this->password\",\"$this->estado\",\"$this->created_by\",$this->created)";
+		$sql = "insert into ".self::$tablename." (nombres,apellidos,email,usuario,password,estado,created_by,created_at,updated_at) ";
+		$sql .= "value (\"$this->nombres\",\"$this->apellidos\",\"$this->email\",\"$this->usuario\",\"$this->password\",\"$this->estado\",\"$this->created_by\",NOW(),NOW())";
 		Executor::doit($sql);
 	}
 
@@ -26,7 +27,7 @@ class AdminData {
 	}
 
 	public function update(){
-		$sql = "update ".self::$tablename." set nombres=\"$this->nombres\",apellidos=\"$this->apellidos\",email=\"$this->email\",usuario=\"$this->usuario\",password=\"$this->password\",estado=\"$this->estado\",created_by=\"$this->created_by\", created=NOW() where id=$this->id";
+		$sql = "update ".self::$tablename." set nombres=\"$this->nombres\",apellidos=\"$this->apellidos\",email=\"$this->email\",usuario=\"$this->usuario\",password=\"$this->password\",estado=\"$this->estado\",created_by=\"$this->created_by\", updated_at=NOW() where id=$this->id";
 		Executor::doit($sql);
 	}
 

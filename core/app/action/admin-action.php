@@ -33,21 +33,26 @@ else if (isset($_GET["adm"]) && $_GET["adm"] == "delete") {
 	$user = AdminData::getById($_GET["id"]);
 	$user->del();
 	Core::alert("Administrador eliminado con Exito!");
-	Core::redir("./?view=register_admin&adm=all");
+	Core::redir("./?view=usuarios/index");
 } 
 
 else if (isset($_GET["adm"]) && $_GET["adm"] == "update") {
-	$admin = AdminData::getById($_POST["admin_id"]);
-	$admin->nombres = $_POST["nombres"];
-	$admin->apellidos = $_POST["apellidos"];
-	$admin->email = $_POST["email"];
-	$admin->usuario = $_POST["usuario"];
-	$admin->password = sha1(md5($_POST["password"]));
-	$admin->estado = $_POST["estado"];
-	$admin->created_by = $_POST["created_by"];
-	$admin->update();
-	Core::alert("Administrador actualizado con Exito!");
-	Core::redir("./?view=register_admin&adm=all");
+    $admin = AdminData::getById($_POST["admin_id"]);
+    $admin->nombres = $_POST["nombres"];
+    $admin->apellidos = $_POST["apellidos"];
+    $admin->email = $_POST["email"];
+    $admin->usuario = $_POST["usuario"];
+
+    // Si la request password viene vacia, no actualizar el campo password
+    if (!empty($_POST["password"])) {
+        $admin->password = sha1(md5($_POST["password"]));
+    }
+
+    $admin->estado = $_POST["estado"];
+    $admin->created_by = $_POST["created_by"];
+    $admin->update();
+    Core::alert("Administrador actualizado con Éxito!");
+    Core::redir("./?view=usuarios/index");
 }
 
 //FUNCION SOLICITUD DE CAMBIO DE CONTRASEÑA
