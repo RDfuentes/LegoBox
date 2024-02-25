@@ -10,6 +10,9 @@
                     <a class="nav-link dropdown-toggle arrow-none" href="./?view=usuarios/index" id="topnav-dashboard" role="button">
                         <i class="fa fa-users me-2"></i><span key="t-dashboards">USUARIOS</span>
                     </a>
+                    <a class="nav-link dropdown-toggle arrow-none" href="./?view=permisos/index" id="topnav-dashboard" role="button">
+                        <i class="fa fa-key me-2"></i><span key="t-dashboards">PERMISOS</span>
+                    </a>
                 </ul>
             </div>
 

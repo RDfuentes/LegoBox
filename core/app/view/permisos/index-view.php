@@ -14,13 +14,13 @@
 
         // Consulta exitencia de data
         $conexion = Database::getCon();
-        $consulta = "SELECT * FROM administrador";
+        $consulta = "SELECT * FROM permisos";
         $resultado = mysqli_query($conexion, $consulta);
         $total = mysqli_num_rows($resultado);
 
         // Consulta la data de la tabal permisos
-        $sql = "SELECT aa.*
-        FROM administrador AS aa";
+        $sql = "SELECT pp.*
+        FROM permisos AS pp";
 
         $result = $conexion->query($sql);
         $data = array();
@@ -35,20 +35,20 @@
         <div class="main-content">
             <div class="container-fluid">
 
-                <?php if (isset($permisosObj->ver_usuarios) && $permisosObj->ver_usuarios == "on") : ?>
+                <?php if (isset($permisosObj->ver_permisos) && $permisosObj->ver_permisos == "on") : ?>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
 
                             <div class="row justify-content-between mb-3">
                                 <div class="col-auto">
-                                    <h5 class="mt-2">USUARIOS</h5>
+                                    <h5 class="mt-2">PERMISOS</h5>
                                 </div>
                                 <div class="col-auto">
                                     <div class="col-auto">
-                                        <?php if (isset($permisosObj->crear_usuarios) && $permisosObj->crear_usuarios == "on") : ?>
-                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#newUser">
-                                                <span data-bs-toggle="tooltip" data-bs-offset="0,1" data-bs-placement="top" data-bs-html="true" title="" data-bs-original-title="<span>Crear nuevo usuario</span>"><i class="fas fa-plus"></i></span>
+                                        <?php if (isset($permisosObj->crear_permisos) && $permisosObj->crear_permisos == "on") : ?>
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#newPermiso">
+                                                <span data-bs-toggle="tooltip" data-bs-offset="0,1" data-bs-placement="top" data-bs-html="true" title="" data-bs-original-title="<span>Crear nuevo permiso</span>"><i class="fas fa-plus"></i></span>
                                             </button>
                                         <?php endif; ?>
                                     </div>
@@ -70,19 +70,13 @@
                                                 <thead>
                                                     <tr class="text-nowrap">
                                                         <th>No.</th>
-                                                        <th>Nombres</th>
-                                                        <th>Apellidos</th>
-                                                        <th>Usuario</th>
-                                                        <th>Tipo</th>
+                                                        <th>Nombre permiso</th>
                                                         <th>Estado</th>
                                                         <th>Opciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tfoot>
                                                     <tr>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
@@ -112,25 +106,7 @@
                                                         'data': 'id'
                                                     },
                                                     {
-                                                        'data': 'nombres'
-                                                    },
-                                                    {
-                                                        'data': 'apellidos'
-                                                    },
-                                                    {
-                                                        'data': 'usuario'
-                                                    },
-                                                    {
-                                                        'data': 'admin',
-                                                        'render': function(data, type, row) {
-                                                            if (data == 1) {
-                                                                return '<span class="label label-danger">Admin</span>';
-                                                            } else if (data == 0) {
-                                                                return '<span class="label label-primary">Usuario</span>';
-                                                            } else {
-                                                                return '';
-                                                            }
-                                                        }
+                                                        'data': 'nombre'
                                                     },
                                                     {
                                                         'data': 'estado',
@@ -147,8 +123,8 @@
                                                     {
                                                         'data': null,
                                                         'render': function(data, type, row) {
-                                                            <?php if (isset($permisosObj->editar_usuarios) && $permisosObj->editar_usuarios == "on") : ?>
-                                                                return '<button class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#editUser" onclick="mostrarID(' + data.id + ')"><i class="fa fa-edit"></i></button>';
+                                                            <?php if (isset($permisosObj->editar_permisos) && $permisosObj->editar_permisos == "on") : ?>
+                                                                return '<button class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#editPermiso" onclick="mostrarID(' + data.id + ')"><i class="fa fa-edit"></i></button>';
                                                             <?php else : ?>
                                                                 return '<span></span>';
                                                             <?php endif; ?>
@@ -184,23 +160,22 @@
 
                                         function mostrarID(id) {
                                             $.ajax({
-                                                url: 'http://localhost/sistemasmvc/LegoBox/core/app/action/getDataAdmin-action.php?id=' + id,
+                                                url: 'http://localhost/sistemasmvc/LegoBox/core/app/action/getDataPermisos-action.php?id=' + id,
                                                 type: 'GET',
                                                 dataType: 'json',
                                                 success: function(data) {
 
                                                     var id = data.data[0].id;
-                                                    var nombres = data.data[0].nombres;
-                                                    var apellidos = data.data[0].apellidos;
-                                                    var email = data.data[0].email;
-                                                    var usuario = data.data[0].usuario;
+                                                    var nombre = data.data[0].nombre;
+                                                    var permisos = data.data[0].permisos;
+                                                    var estado = data.data[0].estado;
+                                                    console.log(permisos);
 
                                                     // Asigna el valor al input en tu modal
                                                     $('#id').val(id);
-                                                    $('#nombres').val(nombres);
-                                                    $('#apellidos').val(apellidos);
-                                                    $('#email').val(email);
-                                                    $('#usuario').val(usuario);
+                                                    $('#nombre').val(nombre);
+                                                    $('#permisos').val(permisos);
+                                                    $('#estado').val(estado);
 
                                                 },
                                                 error: function(error) {
@@ -209,10 +184,6 @@
                                             });
                                         }
                                     </script>
-
-                                    <?php
-                                    include('modals/edit-view.php');
-                                    ?>
 
                                 </div> <!-- end card body -->
                             </div> <!-- end card -->
