@@ -21,33 +21,6 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-
-                            <?php foreach (permissionsUser() as $key => $permission) : ?>
-                                <div class="col-md-12 col-lg-12">
-                                    <div class="mb-3">
-                                        <div class="card mb-3 mt-4">
-                                            <div class="card-body position-relative">
-                                                <h5 class="text-center text-uppercase"><?= $permission['title']; ?></h5>
-                                                <hr>
-                                                <div class="row">
-                                                    <?php foreach ($permission['keys'] as $k => $v) : ?>
-                                                        <div class="col-md-12">
-                                                            <div class="form-check form-switch">
-                                                                <input class="form-check-input" id="<?= $key ?>" type="checkbox" name="<?= $key ?>">
-                                                                <label class="form-check-label" for="<?= $k ?>"><?= $v; ?></label>
-                                                            </div>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-
-                            <div class="form-group">
-                                <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
-                            </div>
                             <div class="col-xs-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="theestado">Estado</label>
@@ -61,6 +34,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
                         </div>
                     </div>
                     <div class="modal-footer">

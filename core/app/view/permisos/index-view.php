@@ -6,11 +6,10 @@
         include('modals/edit-view.php');
 
         // Obtén los permisos del rol_id y decodificamos
-        $permisos = PermisosData::getById($admin->rol_id)->permisos;
-        $permisosObj = json_decode($permisos);
+        $permisosJson = PermisosData::getById($admin->rol_id)->permisos;
 
-        // Mostramos permisos
-        echo ($permisos);
+        // Decodifica la cadena JSON a un arreglo de PHP
+        $permisosArray = json_decode($permisosJson);
 
         // Consulta exitencia de data
         $conexion = Database::getCon();
@@ -35,7 +34,7 @@
         <div class="main-content">
             <div class="container-fluid">
 
-                <?php if (isset($permisosObj->ver_permisos) && $permisosObj->ver_permisos == "on") : ?>
+                <?php if (in_array("ver_permisos", $permisosArray)) : ?>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -46,7 +45,7 @@
                                 </div>
                                 <div class="col-auto">
                                     <div class="col-auto">
-                                        <?php if (isset($permisosObj->crear_permisos) && $permisosObj->crear_permisos == "on") : ?>
+                                        <?php if (in_array("crear_permisos", $permisosArray)) : ?>
                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#newPermiso">
                                                 <span data-bs-toggle="tooltip" data-bs-offset="0,1" data-bs-placement="top" data-bs-html="true" title="" data-bs-original-title="<span>Crear nuevo permiso</span>"><i class="fas fa-plus"></i></span>
                                             </button>
@@ -123,7 +122,7 @@
                                                     {
                                                         'data': null,
                                                         'render': function(data, type, row) {
-                                                            <?php if (isset($permisosObj->editar_permisos) && $permisosObj->editar_permisos == "on") : ?>
+                                                            <?php if (in_array("editar_permisos", $permisosArray)) : ?>
                                                                 return '<button class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#editPermiso" onclick="mostrarID(' + data.id + ')"><i class="fa fa-edit"></i></button>';
                                                             <?php else : ?>
                                                                 return '<span></span>';

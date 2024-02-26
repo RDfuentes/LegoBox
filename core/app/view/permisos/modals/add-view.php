@@ -61,16 +61,18 @@
 
                                 function guardarPermisos() {
                                     const checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
-                                    let result = {};
-                                    checkboxes.forEach(checkbox => result[checkbox.name] = "on");
+                                    let result = [];
+                                    checkboxes.forEach(checkbox => {
+                                        result.push(checkbox.name);
+                                    });
 
                                     document.getElementById("result").value = JSON.stringify(result);
                                     document.getElementById("permissionsForm").submit();
                                 }
                             </script>
 
-                            <input type="" class="form-control" name="permisos" id="result">
-                            <input type="" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
+                            <input type="hidden" class="form-control" name="permisos" id="result">
+                            <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
 
                         </div>
                     </div>

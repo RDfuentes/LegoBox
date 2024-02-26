@@ -25,7 +25,7 @@ else if (isset($_GET["perm"]) && $_GET["perm"] == "delete") {
 else if (isset($_GET["perm"]) && $_GET["perm"] == "update") {
     $permiso = PermisosData::getById($_POST["permiso_id"]);
     $permiso->nombre = $_POST["nombre"];
-    $permiso->permisos = $_POST["permisos"];
+    $permiso->estado = $_POST["estado"];
     $permiso->created_by = $_POST["created_by"];
     $permiso->update();
     Core::alert("Permiso Actualizado con Exito!");

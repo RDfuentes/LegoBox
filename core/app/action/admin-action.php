@@ -19,6 +19,7 @@ if (isset($_GET["adm"]) && $_GET["adm"] == "register") {
 		$admin->email = $_POST["email"];
 		$admin->usuario = $_POST["usuario"];
 		$admin->password = sha1(md5($_POST["password"]));
+		$admin->rol_id = $_POST["rol_id"];
 		$admin->created_by = $_POST["created_by"];
 		$admin->add();
 		Core::alert("Administrador registrado con Exito!");
@@ -48,6 +49,7 @@ else if (isset($_GET["adm"]) && $_GET["adm"] == "update") {
         $admin->password = sha1(md5($_POST["password"]));
     }
 
+    $admin->rol_id = $_POST["rol_id"];
     $admin->estado = $_POST["estado"];
     $admin->created_by = $_POST["created_by"];
     $admin->update();

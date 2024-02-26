@@ -58,9 +58,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="">Rol</label>
+                                    <select name="rol_id" class="form-control" required>
+                                        <option value="">-- SELECCIONE --</option>
+                                        <?php foreach (PermisosData::getAllAct() as $p) : ?>
+                                            <option value="<?php echo $p->id; ?>"><?php echo $p->nombre; ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
                         </div>
                     </div>
                     <div class="modal-footer">

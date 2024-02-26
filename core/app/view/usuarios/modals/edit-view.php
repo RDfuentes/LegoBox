@@ -59,13 +59,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="form-group">
+                                    <label>Rol</label>
+                                    <select name="rol_id" class="form-control" id="rol_id" required>
+                                        <option value="">-- SELECCIONE --</option>
+                                        <?php foreach (PermisosData::getAllAct() as $p) : ?>
+                                            <option value="<?php echo $p->id; ?>"><?php echo $p->nombre; ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor selecciona el rol del registro
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-xs-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="theestado">Estado</label>
-                                    <select name="estado" class="form-control" id="" required>
+                                    <label>Estado</label>
+                                    <select name="estado" class="form-control" id="estado" required>
                                         <option value="">-- SELECCIONE --</option>
                                         <option value="1">ACTIVO</option>
                                         <option value="0">INACTIVO</option>
@@ -74,6 +85,9 @@
                                         Por favor selecciona el estado del registro
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
                             </div>
                         </div>
                     </div>
