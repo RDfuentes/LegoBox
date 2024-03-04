@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="form-control" value="<?php echo $admin->usuario; ?>" name="created_by" required>
+                            <input type="hidden" class="form-control" value="<?php echo $sesionAdminData['userName']; ?>" name="created_by" required>
                         </div>
                     </div>
                     <div class="modal-footer">

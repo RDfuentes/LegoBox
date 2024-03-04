@@ -28,36 +28,32 @@ if (isset($_GET["adm"]) && $_GET["adm"] == "register") {
 		Core::redir("./?view=usuarios/index");
 	}
 	Core::redir("./?view=usuarios/index");
-} 
-
-else if (isset($_GET["adm"]) && $_GET["adm"] == "delete") {
+} else if (isset($_GET["adm"]) && $_GET["adm"] == "delete") {
 	$user = AdminData::getById($_GET["id"]);
 	$user->del();
 	Core::alert("Administrador eliminado con Exito!");
 	Core::redir("./?view=usuarios/index");
-} 
+} else if (isset($_GET["adm"]) && $_GET["adm"] == "update") {
+	$admin = AdminData::getById($_POST["admin_id"]);
+	$admin->nombres = $_POST["nombres"];
+	$admin->apellidos = $_POST["apellidos"];
+	$admin->email = $_POST["email"];
+	$admin->usuario = $_POST["usuario"];
 
-else if (isset($_GET["adm"]) && $_GET["adm"] == "update") {
-    $admin = AdminData::getById($_POST["admin_id"]);
-    $admin->nombres = $_POST["nombres"];
-    $admin->apellidos = $_POST["apellidos"];
-    $admin->email = $_POST["email"];
-    $admin->usuario = $_POST["usuario"];
+	// Si la request password viene vacia, no actualizar el campo password
+	if (!empty($_POST["password"])) {
+		$admin->password = sha1(md5($_POST["password"]));
+	}
 
-    // Si la request password viene vacia, no actualizar el campo password
-    if (!empty($_POST["password"])) {
-        $admin->password = sha1(md5($_POST["password"]));
-    }
-
-    $admin->rol_id = $_POST["rol_id"];
-    $admin->estado = $_POST["estado"];
-    $admin->created_by = $_POST["created_by"];
-    $admin->update();
-    Core::alert("Administrador actualizado con Éxito!");
-    Core::redir("./?view=usuarios/index");
+	$admin->rol_id = $_POST["rol_id"];
+	$admin->estado = $_POST["estado"];
+	$admin->created_by = $_POST["created_by"];
+	$admin->update();
+	Core::alert("Administrador actualizado con Éxito!");
+	Core::redir("./?view=usuarios/index");
 }
 
-//FUNCION SOLICITUD DE CAMBIO DE CONTRASEÑA
+//FUNCION EMAIL CAMBIO DE CONTRASEÑA
 else if (isset($_GET["adm"]) && $_GET["adm"] == "passwordreset") {
 	$ad = AdminData::getBy("email", $_POST["email"]);
 	if ($ad == null) {
@@ -129,7 +125,7 @@ else if (isset($_GET["adm"]) && $_GET["adm"] == "passwordreset") {
 
 		Core::redir("./");
 	}
-}
+} //FIN FUNCION EMAIL CAMBIO DE CONTRASEÑA
 
 //FUNCION PARA CAMBIAR CONTRASEÑA
 else if (isset($_GET["adm"]) && $_GET["adm"] == "resetpassword") {
@@ -150,36 +146,58 @@ else if (isset($_GET["adm"]) && $_GET["adm"] == "resetpassword") {
 			Core::redir("./?view=reiniciarpassword&adm=resetpassword&recoverycode=$olvido_pass_iden");
 		}
 	}
-} 
-
-else if (isset($_GET["adm"]) && $_GET["adm"] == "login") {
-
-	$db  = new Database();
-	$conexion = $db->connect();
-	$usuario = htmlspecialchars($_POST["usuario"]);
-	$password = sha1(md5(htmlspecialchars($_POST["password"])));
-	$sql = "select * from administrador where usuario=\"$usuario\" and password=\"$password\" and estado=1";
-	$query = $conexion->query($sql);
-
-	if ($query != null) {
-		$admin = $query->fetch_object();
-
-		if ($admin != null) {
-
-			$_SESSION["admin_id"] = $admin->id;
-		}
-	}
-
-	if (isset($_SESSION["admin_id"])) {
-		Core::redir("./?view=welcome");
-	} else {
-		Core::alert("DATOS ERRONEOS, VERIFIQUE!");
-		Core::redir("./");
-	}
-} 
+} //FUNCION PARA CAMBIAR CONTRASEÑA
 
 else if (isset($_GET["adm"]) && $_GET["adm"] == "logout") {
 	unset($_SESSION["admin_id"]);
 	session_destroy();
 	Core::redir("./");
+} else if (isset($_GET["adm"]) && $_GET["adm"] == "login") {
+	$username = $_POST["usuario"];
+	$password = $_POST["password"];
+	
+	$aplicativo = 2;
+	$api_url = "https://core.proyectosacredicom.com/login-and-logout/?aplicativo=$aplicativo";
+
+	$post_data = json_encode(['username' => $username, 'password' => $password]);
+
+	$ch = curl_init($api_url);
+	curl_setopt_array($ch, [
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_POST => 1,
+		CURLOPT_POSTFIELDS => $post_data,
+		CURLOPT_HTTPHEADER => ['Content-Type: application/json']
+	]);
+
+	$response = curl_exec($ch);
+
+	if (curl_errno($ch)) {
+		echo 'Error en la solicitud cURL: ' . curl_error($ch);
+	} else {
+		$response_data = json_decode($response, true);
+
+		curl_close($ch);
+
+		$jwt = $response;
+		$parts = explode('.', $jwt);
+		$decoded_payload = json_decode(base64_decode($parts[1]));
+
+		// Acceder a los atributos del objeto $decoded_payload
+		$userId = $decoded_payload->user->id;
+		$userName = $decoded_payload->user->name;
+		$userPerms = $decoded_payload->user->perms;
+
+		// Iniciar la sesión y almacenar el ID y otros datos del usuario
+		$_SESSION["admin_id"] = $userId;
+		$_SESSION["admin_name"] = $userName;
+		$_SESSION["admin_perms"] = $userPerms;
+
+		// Verificar si la sesión se inició correctamente
+		if (isset($_SESSION["admin_id"])) {
+			Core::redir("./?view=welcome");
+		} else {
+			Core::alert("DATOS ERRONEOS, VERIFIQUE!");
+			Core::redir("./");
+		}
+	}
 }
