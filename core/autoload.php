@@ -12,6 +12,3 @@ include "controller/Bootload.php";
 include "controller/Action.php";
 
 include "controller/class.upload.php";
-
-
-?>

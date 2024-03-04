@@ -1,42 +1,53 @@
-<body style="background-attachment: fixed;
-  background-position: center center;
-  background-size: cover;
-  background-image: url(./img/fondo.png);">
+<?php if (isset($_SESSION["admin_id"])) : ?>
+    <meta http-equiv="refresh" content="0; url=http://localhost/sistemasmvc/LegoBox/?view=welcome">
+<?php else : ?>
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card overflow-hidden">
 
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-md-12">
+                        <div class="row text-center p-5">
+                            <h1><strong>LegoBox</strong></h1>
+                            <h5>NEWSOFT</h5>
+                        </div>
 
-                <div class="jumbotron" style="background-color:white; width:80%; height:120%; margin-top:100px; margin-left:10%">
-                    <h1><strong>LegoBox </strong><img src="img/legobox.png" alt="" style='width:1em; height: 1em;'> </h1>
-                    <h5 class="text-center">NEWSOFT</h5>
+                        <div class="card-body pt-0">
+                            <div class="p-0">
+                                <form method="post" action="./?action=admin&adm=login" class="needs-validation" novalidate>
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Usuario</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="usuario" name="usuario" required autocomplete="usuario" autofocus>
+                                            <div class="invalid-feedback">
+                                                Por favor ingresa usuario
+                                            </div>
+                                        </div>
 
-                    <form method="post" action="./?action=admin&adm=login">
-                        <h3><strong>INICIO DE SESIÓN</strong></h3>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <p class="btn btn-default" disabled><i class="fa fa-user"></i></p>
-                                </span>
-                                <input type="text" class="form-control" id="theusername" placeholder="Usuario" name="usuario" required>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <a class="btn btn-default" disabled><i class="fa fa-lock"></i></a>
-                                </span>
-                                <input type="password" class="form-control" id="thepassworduser" placeholder="Contraseña" name="password" required>
-                                <span class="input-group-btn">
-                                    <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword()"><span class="fa fa-eye-slash icon"></span></button>
-                                </span>
-                            </div>
-                            <h6><a href="./?view=reiniciarpassword&adm=passwordreset">OLVIDE MI CONTRASEÑA</a></h6>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary mt10 btn-block"><i class="fa fa-check"></i> INICIAR SESION</button>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Contraseña</label>
+                                        <div class="input-group auth-pass-inputgroup">
+                                            <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
+                                            <button class="btn btn-light" type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
+                                            <div class="invalid-feedback">
+                                                Por favor ingresa contraseña
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 d-grid">
+                                        <button type="submit" class="btn btn-primary mt10 btn-block"><i class="fa fa-check"></i> INICIAR SESION</button>
+                                    </div>
+                                    <div class="d-grid">
+                                        <a class="btn btn-link" href="./?view=reiniciarpassword&adm=passwordreset" style="color: #0d3e66;">OLVIDE MI CONTRASEÑA</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </form>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+<?php endif; ?>
