@@ -53,7 +53,7 @@ class AdminData
 	public function updatepassword()
 	{
 		try {
-			$sql = "UPDATE " . self::$tablename . " SET olvido_pass_iden=\"$this->olvido_pass_iden\", created=NOW() WHERE id=$this->id";
+			$sql = "UPDATE " . self::$tablename . " SET olvido_pass_iden=\"$this->olvido_pass_iden\", updated_at=NOW() WHERE id=$this->id";
 			Executor::doit($sql);
 		} catch (Exception $e) {
 			die("Error al actualizar la contraseña en la base de datos: " . $e->getMessage());
@@ -64,7 +64,7 @@ class AdminData
 	public function passwordupdate()
 	{
 		try {
-			$sql = "UPDATE " . self::$tablename . " SET password=\"$this->password\", created=NOW() WHERE id=$this->id";
+			$sql = "UPDATE " . self::$tablename . " SET password=\"$this->password\", updated_at=NOW() WHERE id=$this->id";
 			Executor::doit($sql);
 		} catch (Exception $e) {
 			die("Error al actualizar la contraseña en la base de datos: " . $e->getMessage());
